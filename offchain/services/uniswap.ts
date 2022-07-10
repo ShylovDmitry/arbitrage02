@@ -2,6 +2,7 @@ import { Pool } from "@uniswap/v3-sdk";
 import { Token } from "@uniswap/sdk-core";
 import { UniswapApiPool } from "./uniswap.api";
 import { getChainId } from "../helpers";
+import { SushiswapApiPair } from "./sushiswap.api";
 
 export function createPool(pool: UniswapApiPool): Pool {
   const token0 = new Token(
@@ -40,12 +41,8 @@ export async function generateSwapPaths(
 ): Promise<[UniswapApiPool, UniswapApiPool, UniswapApiPool][]> {
   const swapPaths: [UniswapApiPool, UniswapApiPool, UniswapApiPool][] = [];
 
-  const ethPools = pools.filter(
-    ({ token0, token1 }) => token0.symbol === "WETH" || token1.symbol === "WETH"
-  );
-  const nonEthPools = pools.filter(
-    ({ token0, token1 }) => token0.symbol !== "WETH" && token1.symbol !== "WETH"
-  );
+  const ethPools = getEthPools(pools);
+  const nonEthPools = getNonEthPools(pools);
 
   for (let i = 0; i < ethPools.length; i++) {
     const pool0 = ethPools[i];
@@ -72,4 +69,16 @@ export async function generateSwapPaths(
     }
   }
   return swapPaths;
+}
+
+export function getEthPools(pools: UniswapApiPool[]): UniswapApiPool[] {
+  return pools.filter(
+    ({ token0, token1 }) => token0.symbol === "WETH" || token1.symbol === "WETH"
+  );
+}
+
+export function getNonEthPools(pools: UniswapApiPool[]): UniswapApiPool[] {
+  return pools.filter(
+    ({ token0, token1 }) => token0.symbol !== "WETH" && token1.symbol !== "WETH"
+  );
 }

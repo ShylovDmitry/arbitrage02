@@ -38,12 +38,8 @@ export async function generatePairFlows(
   const pairFlows: [SushiswapApiPair, SushiswapApiPair, SushiswapApiPair][] =
     [];
 
-  const ethPairs = pairs.filter(
-    ({ token0, token1 }) => token0.symbol === "WETH" || token1.symbol === "WETH"
-  );
-  const nonEthPairs = pairs.filter(
-    ({ token0, token1 }) => token0.symbol !== "WETH" && token1.symbol !== "WETH"
-  );
+  const ethPairs = getEthPairs(pairs);
+  const nonEthPairs = getNonEthPairs(pairs);
 
   for (let i = 0; i < ethPairs.length; i++) {
     const pair0 = ethPairs[i];
@@ -72,10 +68,14 @@ export async function generatePairFlows(
   return pairFlows;
 }
 
-export async function getEthPairs(
-  pairs: SushiswapApiPair[]
-): Promise<SushiswapApiPair[]> {
+export function getEthPairs(pairs: SushiswapApiPair[]): SushiswapApiPair[] {
   return pairs.filter(
     ({ token0, token1 }) => token0.symbol === "WETH" || token1.symbol === "WETH"
+  );
+}
+
+export function getNonEthPairs(pairs: SushiswapApiPair[]): SushiswapApiPair[] {
+  return pairs.filter(
+    ({ token0, token1 }) => token0.symbol !== "WETH" && token1.symbol !== "WETH"
   );
 }

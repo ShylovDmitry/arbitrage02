@@ -1,4 +1,7 @@
 import axios from "axios";
+import axiosRetry from "axios-retry";
+
+axiosRetry(axios, { retries: 3, retryDelay: axiosRetry.exponentialDelay });
 
 // const endpoint =
 //   "https://api.thegraph.com/subgraphs/name/sushiswap/arbitrum-exchange";
@@ -76,7 +79,7 @@ query Pairs($first: Int, $skip: Int) {
 export async function getAllPairs(): Promise<SushiswapApiPair[]> {
   const limit = 100;
   const result = await Promise.all(
-    [...Array(10).keys()].map((val) => getPairs(limit, val * limit))
+    [...Array(5).keys()].map((val) => getPairs(limit, val * limit))
   );
   return result.flat();
 }
