@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "research": "ts-node offchain/index.ts",
+    "research:sushiswap": "ts-node offchain/index-sushiswap.ts",
     "mainnet:deploy": "npx hardhat run onchain/scripts/deploy.ts",
     "mainnet:run": "npx hardhat run onchain/scripts/run.ts",
     "testnet:deploy": "npx hardhat run --network testnet onchain/scripts/deploy.ts",
