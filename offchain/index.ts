@@ -13,12 +13,15 @@ async function main() {
 
   const result = [];
   for (const pairs of flows) {
+    result.push(tradePairs(pairs, "0.3"));
     result.push(tradePairs(pairs, "0.5"));
     result.push(tradePairs(pairs, "1"));
     result.push(tradePairs(pairs, "1.5"));
     result.push(tradePairs(pairs, "2"));
     result.push(tradePairs(pairs, "2.5"));
     result.push(tradePairs(pairs, "3"));
+    result.push(tradePairs(pairs, "4"));
+    result.push(tradePairs(pairs, "5"));
   }
 
   // @ts-ignore
